@@ -3,12 +3,27 @@ import jwt from "jsonwebtoken";
 import { string } from "zod";
 const JWT_SECRET ="yash"
 
-type sc= string | undefined
+
 
 export function auth(req:Request,res:Response,next:NextFunction) {
     const head = req.headers["authorization"] ;
     const token = head
-    const decoded = jwt.verify(token as string ,JWT_SECRET)
-    // @ts-ignore
-    req.decoded =decoded
+    try{
+        if (token) {
+            const decoded = jwt.verify(token  ,JWT_SECRET) 
+                  // @ts-ignore
+                req.userId =decoded.id
+        }
+        
+   
+    next()
+    }catch(e){
+        res.json({
+            "message":"invaild token",
+            "error":e
+        })
+        return
+    }
+   
+   
 }

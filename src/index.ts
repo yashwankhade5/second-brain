@@ -1,5 +1,6 @@
 import express from "express"
 import { z } from "zod";
+import { auth } from "./auth";
 import mongoose from "mongoose"
 import  cors  from "cors";
 import jwt from "jsonwebtoken"
@@ -69,8 +70,21 @@ app.post("/api/v1/signin",async (req,res)=>{
 })
 
 
-app.post("/api/v1/content",(req,res)=>{
-    
+app.post("/api/v1/content",auth,async(req,res)=>{
+    const {link,type,title} = req.body
+    try{
+  const result = await contentmodel.create({
+    link,
+    type,
+    title,
+    // @ts-ignore
+    "userId":req.userId
+  })
+}catch(e){
+    res.json({
+        "message":"not created content"
+    })
+}
     
 })
 
