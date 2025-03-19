@@ -57,6 +57,7 @@ app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, funct
 app.post("/api/v1/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const username = req.body.username;
     const password = req.body.password;
+    console.log(req.headers);
     let user = yield db_1.Usermodel.findOne({
         "username": username,
         "password": password

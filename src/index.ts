@@ -47,6 +47,7 @@ catch(e){
 app.post("/api/v1/signin",async (req,res)=>{
     const username = req.body.username
     const password = req.body.password
+    console.log(req.headers)
     let user = await Usermodel.findOne({
         "username":username,
         "password":password
