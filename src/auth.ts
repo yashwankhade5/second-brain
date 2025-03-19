@@ -12,7 +12,8 @@ export function auth(req:Request,res:Response,next:NextFunction) {
         if (token) {
             const decoded = jwt.verify(token  ,JWT_SECRET) 
                   // @ts-ignore
-                req.userId =decoded.id
+                req.userId =decoded
+                
         }
         
    

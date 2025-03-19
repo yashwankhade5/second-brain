@@ -48,7 +48,7 @@ catch(e){
 app.post("/api/v1/signin",async (req,res)=>{
     const username = req.body.username
     const password = req.body.password
-    console.log(req.headers)
+   
     let user = await Usermodel.findOne({
         "username":username,
         "password":password
@@ -72,24 +72,46 @@ app.post("/api/v1/signin",async (req,res)=>{
 
 app.post("/api/v1/content",auth,async(req,res)=>{
     const {link,type,title} = req.body
+    //  @ts-ignore
+    const userId =req.userId
+    
     try{
+        
   const result = await contentmodel.create({
-    link,
-    type,
-    title,
-    // @ts-ignore
-    "userId":req.userId
+    "link":link,
+    "type":type,
+    "title":title,
+    
+    "userId":userId
   })
+  res.status(200).json({
+    "message":"content saved in second brain"
+})
 }catch(e){
     res.json({
-        "message":"not created content"
+        "message":"not created content",
+        "error":e
     })
 }
+
     
 })
 
-app.get("/api/v1/content",(req,res)=>{
-
+app.get("/api/v1/content",auth, async(req,res)=>{
+    // @ts-ignore
+  const userId = req.userId
+  let result
+  try{
+ result = await contentmodel.find({
+    "userId":userId
+})
+res.status(200).json({
+    "message":result
+})}catch(e){
+    res.status(400).json({
+        "messsage":result
+    })
+}
 })
 
 app.delete("/api/v1/content",(req,res)=>{

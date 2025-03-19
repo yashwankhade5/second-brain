@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const zod_1 = require("zod");
+const auth_1 = require("./auth");
 const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -57,7 +58,6 @@ app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, funct
 app.post("/api/v1/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const username = req.body.username;
     const password = req.body.password;
-    console.log(req.headers);
     let user = yield db_1.Usermodel.findOne({
         "username": username,
         "password": password
@@ -73,10 +73,46 @@ app.post("/api/v1/signin", (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
 }));
-app.post("/api/v1/content", (req, res) => {
-});
-app.get("/api/v1/content", (req, res) => {
-});
+app.post("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { link, type, title } = req.body;
+    //  @ts-ignore
+    const userId = req.userId;
+    try {
+        const result = yield db_1.contentmodel.create({
+            "link": link,
+            "type": type,
+            "title": title,
+            "userId": userId
+        });
+        res.status(200).json({
+            "message": "content saved in second brain"
+        });
+    }
+    catch (e) {
+        res.json({
+            "message": "not created content",
+            "error": e
+        });
+    }
+}));
+app.get("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // @ts-ignore
+    const userId = req.userId;
+    let result;
+    try {
+        result = yield db_1.contentmodel.find({
+            "userId": userId
+        });
+        res.status(200).json({
+            "message": result
+        });
+    }
+    catch (e) {
+        res.status(400).json({
+            "messsage": result
+        });
+    }
+}));
 app.delete("/api/v1/content", (req, res) => {
 });
 app.post("/api/v1/share", (req, res) => {
