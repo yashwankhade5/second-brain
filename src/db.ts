@@ -1,11 +1,11 @@
-import mongoose from "mongoose"
-import { object } from "zod"
+import mongoose,{model,Schema} from "mongoose"
+
  
 const objectId = mongoose.Schema.Types.ObjectId
-const Schema = mongoose.Schema
+
 
 const userSchema = new Schema({
-    usernae:{type:String, requires:true, unique:true}
+    username:{type:String, required:true, unique:true}
    , password:{type:String, required:true}
 
 })
@@ -23,4 +23,13 @@ const contentSchema= new Schema({
 })
 
 
-const Usermodel= mongoose.model('User',userSchema)
+const LinkSchema = new Schema({
+    hash: String,
+    userId: {type: mongoose.Types.ObjectId, ref: 'User', required: true, unique: true },
+})
+
+
+export const Usermodel= model('User',userSchema)
+export const tagmodel= model('tag', tagSchema)
+export const contentmodel= model('content',contentSchema)
+export const Linkmodel= model('Link',LinkSchema)
