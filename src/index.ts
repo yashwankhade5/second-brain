@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(cors())
 
 
-mongoose.connect("mongodb+srv://Admin:tcYVqZuA115vHNNv@cluster0.bl0kz.mongodb.net/secondBrain")
+mongoose.connect("")
 app.post("/api/v1/signup",async (req,res)=>{
 const username = req.body.username
 const password = req.body.password
