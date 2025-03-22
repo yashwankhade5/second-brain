@@ -114,7 +114,25 @@ res.status(200).json({
 }
 })
 
-app.delete("/api/v1/content",(req,res)=>{
+app.delete("/api/v1/content",auth,async(req,res)=>{
+    // @ts-ignore
+    const userId = req.userId
+    const id = req.body.id
+   let result
+   try{
+   result = await contentmodel.deleteMany({
+        "_id": id,
+        "userId":userId
+   })
+
+   res.json({
+    "message":"deleted sucessfully"
+   })
+}catch(e){
+    res.json({
+        "messsage":"sorry something went wrong try again"
+    })
+   }
 
 })
 

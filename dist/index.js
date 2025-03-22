@@ -113,8 +113,26 @@ app.get("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 0, 
         });
     }
 }));
-app.delete("/api/v1/content", (req, res) => {
-});
+app.delete("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // @ts-ignore
+    const userId = req.userId;
+    const id = req.body.id;
+    let result;
+    try {
+        result = yield db_1.contentmodel.deleteMany({
+            "_id": id,
+            "userId": userId
+        });
+        res.json({
+            "message": "deleted sucessfully"
+        });
+    }
+    catch (e) {
+        res.json({
+            "messsage": "sorry something went wrong try again"
+        });
+    }
+}));
 app.post("/api/v1/share", (req, res) => {
 });
 app.get("/api/v1/:sharelink", (req, res) => {
