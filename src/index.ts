@@ -1,18 +1,24 @@
 import express from "express"
 import { z } from "zod";
 import { auth } from "./auth";
+import * as dotenv from "dotenv";
 import mongoose from "mongoose"
 import  cors  from "cors";
 import jwt from "jsonwebtoken"
 import { Usermodel,contentmodel,tagmodel,Linkmodel } from "./db";
 const app = express()
 const JWT_SECRET = "yash"
+dotenv.config()
 
-app.use(express.json())
+const mongooseUrl = process.env.Mongoose 
+if (!mongooseUrl) {
+    throw new Error("mongoose is not string");
+    
+}
 app.use(cors())
 
 
-mongoose.connect("mongodb+srv://Admin:tcYVqZuA115vHNNv@cluster0.bl0kz.mongodb.net/secondBrain")
+mongoose.connect(mongooseUrl)
 app.post("/api/v1/signup",async (req,res)=>{
 const username = req.body.username
 const password = req.body.password
