@@ -172,4 +172,3 @@ app.get("/api/v1/:sharelink",async(req,res)=>{
 })
 
 app.listen(3000)
-// jwt.sign(userId,JWT_SHARE)
