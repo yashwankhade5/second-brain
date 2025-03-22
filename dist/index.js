@@ -55,6 +55,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const db_1 = require("./db");
 const app = (0, express_1.default)();
 const JWT_SECRET = "yash";
+const JWT_SHARE = "YASH1";
 dotenv.config();
 const mongooseUrl = process.env.Mongoose;
 if (!mongooseUrl) {
@@ -171,8 +172,30 @@ app.delete("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 
         });
     }
 }));
-app.post("/api/v1/share", (req, res) => {
+app.post("/api/v1/share", auth_1.auth, (req, res) => {
+    // @ts-ignore
+    const userId = req.userId;
+    res.json({
+        "message": `${req.hostname}:3000/api/v1/${jsonwebtoken_1.default.sign(userId, JWT_SHARE)}`
+    });
 });
-app.get("/api/v1/:sharelink", (req, res) => {
-});
+app.get("/api/v1/:sharelink", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const token = req.params.sharelink;
+    const userId = jsonwebtoken_1.default.verify(token, JWT_SHARE);
+    let result;
+    try {
+        result = yield db_1.contentmodel.find({
+            "userId": userId
+        });
+        res.json({
+            "message": result
+        });
+    }
+    catch (error) {
+        res.json({
+            "message": "something went wrong"
+        });
+    }
+}));
 app.listen(3000);
+// jwt.sign(userId,JWT_SHARE)
