@@ -127,9 +127,9 @@ app.delete("/api/v1/content",auth,async(req,res)=>{
     
     const userId = req.userId
     const id = req.body.id
-   let result
+  
    try{
-   result = await contentmodel.deleteMany({
+    await contentmodel.deleteMany({
         "_id": id,
         "userId":userId
    })
@@ -183,13 +183,34 @@ app.post("/api/v1/share",auth,async (req,res)=>{
 app.get("/api/v1/:sharelink",async(req,res)=>{
   const token  = req.params.sharelink
 
-  const content = await Linkmodel.find({
-    token
+  const linked = await Linkmodel.findOne({
+    "hash":token
+  })
+  if(!linked){
+    res.json({
+        "message":"not exist"
+    })
+    return
+  }
+  const user = await Usermodel.findOne({
+     _id:linked.userId
+  })
+  if (!user) {
+    res.json({
+        message:"user not found"
+    })
+    return
+  }
+  const content = await contentmodel.findOne({
+    userId:linked.userId
   })
  
 
+ 
+
   res.json({
-    content
+    username:user.username,
+    message:content
   })
  
 })

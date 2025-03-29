@@ -155,9 +155,8 @@ app.get("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 0, 
 app.delete("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.userId;
     const id = req.body.id;
-    let result;
     try {
-        result = yield db_1.contentmodel.deleteMany({
+        yield db_1.contentmodel.deleteMany({
             "_id": id,
             "userId": userId
         });
@@ -205,11 +204,30 @@ app.post("/api/v1/share", auth_1.auth, (req, res) => __awaiter(void 0, void 0, v
 }));
 app.get("/api/v1/:sharelink", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.params.sharelink;
-    const content = yield db_1.Linkmodel.find({
-        token
+    const linked = yield db_1.Linkmodel.findOne({
+        "hash": token
+    });
+    if (!linked) {
+        res.json({
+            "message": "not exist"
+        });
+        return;
+    }
+    const user = yield db_1.Usermodel.findOne({
+        _id: linked.userId
+    });
+    if (!user) {
+        res.json({
+            message: "user not found"
+        });
+        return;
+    }
+    const content = yield db_1.contentmodel.findOne({
+        userId: linked.userId
     });
     res.json({
-        content
+        username: user.username,
+        message: content
     });
 }));
 app.listen(3000);
