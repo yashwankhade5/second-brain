@@ -176,7 +176,7 @@ app.post("/api/v1/share", auth_1.auth, (req, res) => {
     // @ts-ignore
     const userId = req.userId;
     res.json({
-        "message": `${req.hostname}:3000/api/v1/${jsonwebtoken_1.default.sign(userId, JWT_SHARE)}`
+        "message": `${req.hostname}:${3000}/api/v1/${jsonwebtoken_1.default.sign(userId, JWT_SHARE)}`
     });
 });
 app.get("/api/v1/:sharelink", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -198,4 +198,3 @@ app.get("/api/v1/:sharelink", (req, res) => __awaiter(void 0, void 0, void 0, fu
     }
 }));
 app.listen(3000);
-// jwt.sign(userId,JWT_SHARE)
