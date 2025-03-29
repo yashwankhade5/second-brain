@@ -53,6 +53,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const db_1 = require("./db");
+const util_1 = require("./util");
 const app = (0, express_1.default)();
 const JWT_SECRET = "yash";
 const JWT_SHARE = "YASH1";
@@ -114,7 +115,6 @@ app.post("/api/v1/signin", (req, res) => __awaiter(void 0, void 0, void 0, funct
 }));
 app.post("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { link, type, title } = req.body;
-    //  @ts-ignore
     const userId = req.userId;
     try {
         const result = yield db_1.contentmodel.create({
@@ -135,7 +135,6 @@ app.post("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 0,
     }
 }));
 app.get("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // @ts-ignore
     const userId = req.userId;
     let result;
     try {
@@ -172,13 +171,38 @@ app.delete("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 
         });
     }
 }));
-app.post("/api/v1/share", auth_1.auth, (req, res) => {
-    // @ts-ignore
-    const userId = req.userId;
-    res.json({
-        "message": `${req.hostname}:${3000}/api/v1/${jsonwebtoken_1.default.sign(userId, JWT_SHARE)}`
-    });
-});
+app.post("/api/v1/share", auth_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const share = req.body.share;
+    if (share) {
+        const existingLink = yield db_1.Linkmodel.findOne({
+            userId: req.userId
+        });
+        if (existingLink) {
+            res.json({
+                hash: existingLink.hash
+            });
+            return;
+        }
+        else {
+            const hash = (0, util_1.random)(10);
+            yield db_1.Linkmodel.create({
+                hash,
+                userId: req.userId
+            });
+            res.json({
+                hash: hash
+            });
+        }
+    }
+    else {
+        yield db_1.Linkmodel.deleteMany({
+            userId: req.userId
+        });
+        res.json({
+            message: "Removed shareable link"
+        });
+    }
+}));
 app.get("/api/v1/:sharelink", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.params.sharelink;
     const userId = jsonwebtoken_1.default.verify(token, JWT_SHARE);

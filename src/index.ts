@@ -6,6 +6,7 @@ import mongoose from "mongoose"
 import  cors  from "cors";
 import jwt from "jsonwebtoken"
 import { Usermodel,contentmodel,tagmodel,Linkmodel } from "./db";
+import { random } from "./util";
 const app = express()
 const JWT_SECRET = "yash"
 const JWT_SHARE = "YASH1"
@@ -79,7 +80,7 @@ app.post("/api/v1/signin",async (req,res)=>{
 
 app.post("/api/v1/content",auth,async(req,res)=>{
     const {link,type,title} = req.body
-    //  @ts-ignore
+    
     const userId =req.userId
     
     try{
@@ -105,7 +106,7 @@ app.post("/api/v1/content",auth,async(req,res)=>{
 })
 
 app.get("/api/v1/content",auth, async(req,res)=>{
-    // @ts-ignore
+    
   const userId = req.userId
   let result
   try{
@@ -144,10 +145,35 @@ app.delete("/api/v1/content",auth,async(req,res)=>{
 })
 
 app.post("/api/v1/share",auth,async (req,res)=>{
-       // @ts-ignore
+       
     const share = req.body.share
     if(share){
-        
+   const existingLink = await Linkmodel.findOne({
+    userId:req.userId
+   })
+   if(existingLink){
+    res.json({
+        hash:existingLink.hash
+    })
+    return
+   }else{
+    const hash = random(10)
+    await Linkmodel.create({
+        hash,
+        userId:req.userId
+    })
+    res.json({
+        hash:hash
+    })
+   }
+
+    }else{
+        await Linkmodel.deleteMany({
+            userId:req.userId
+        })
+        res.json({
+            message:"Removed shareable link"
+        })
     }
 
 
