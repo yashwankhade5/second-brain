@@ -143,12 +143,14 @@ app.delete("/api/v1/content",auth,async(req,res)=>{
 
 })
 
-app.post("/api/v1/share",auth,(req,res)=>{
+app.post("/api/v1/share",auth,async (req,res)=>{
        // @ts-ignore
-    const userId = req.userId
-    res.json({
-        "message":`${req.hostname}:${3000}/api/v1/${jwt.sign(userId,JWT_SHARE)}`
-    })
+    const share = req.body.share
+    if(share){
+        
+    }
+
+
 })
 
 app.get("/api/v1/:sharelink",async(req,res)=>{
