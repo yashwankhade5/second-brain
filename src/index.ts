@@ -18,6 +18,7 @@ if (!mongooseUrl) {
     
 }
 app.use(cors())
+app.use(express.json())
 
 
 mongoose.connect(mongooseUrl)
@@ -47,7 +48,7 @@ else{
     return
 }}
 catch(e){
-    res.status(411).json({"message":"account is not created"})
+    res.status(411).json({"message":"account is not created"+e})
     return
 }
 
@@ -123,7 +124,7 @@ res.status(200).json({
 })
 
 app.delete("/api/v1/content",auth,async(req,res)=>{
-    // @ts-ignore
+    
     const userId = req.userId
     const id = req.body.id
    let result

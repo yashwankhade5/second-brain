@@ -63,6 +63,7 @@ if (!mongooseUrl) {
     throw new Error("mongoose is not string");
 }
 app.use((0, cors_1.default)());
+app.use(express_1.default.json());
 mongoose_1.default.connect(mongooseUrl);
 app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const username = req.body.username;
@@ -91,7 +92,7 @@ app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, funct
         }
     }
     catch (e) {
-        res.status(411).json({ "message": "account is not created" });
+        res.status(411).json({ "message": "account is not created" + e });
         return;
     }
 }));
@@ -152,7 +153,6 @@ app.get("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 0, 
     }
 }));
 app.delete("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // @ts-ignore
     const userId = req.userId;
     const id = req.body.id;
     let result;
