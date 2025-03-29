@@ -113,7 +113,7 @@ app.get("/api/v1/content",auth, async(req,res)=>{
   try{
  result = await contentmodel.find({
     "userId":userId
-})
+}).populate('userId')
 res.status(200).json({
     "message":result
 })}catch(e){
@@ -183,20 +183,14 @@ app.post("/api/v1/share",auth,async (req,res)=>{
 app.get("/api/v1/:sharelink",async(req,res)=>{
   const token  = req.params.sharelink
 
-  const userId = jwt.verify(token,JWT_SHARE)
-  let result
-  try {
-    result = await contentmodel.find({
-        "userId":userId
-    })
-    res.json({
-        "message":result
-      })
-  } catch (error) {
-    res.json({
-        "message":"something went wrong"
-    })
-  }
+  const content = await Linkmodel.find({
+    token
+  })
+ 
+
+  res.json({
+    content
+  })
  
 })
 

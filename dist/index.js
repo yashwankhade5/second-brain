@@ -141,7 +141,7 @@ app.get("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 0, 
     try {
         result = yield db_1.contentmodel.find({
             "userId": userId
-        });
+        }).populate('userId');
         res.status(200).json({
             "message": result
         });
@@ -205,20 +205,11 @@ app.post("/api/v1/share", auth_1.auth, (req, res) => __awaiter(void 0, void 0, v
 }));
 app.get("/api/v1/:sharelink", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.params.sharelink;
-    const userId = jsonwebtoken_1.default.verify(token, JWT_SHARE);
-    let result;
-    try {
-        result = yield db_1.contentmodel.find({
-            "userId": userId
-        });
-        res.json({
-            "message": result
-        });
-    }
-    catch (error) {
-        res.json({
-            "message": "something went wrong"
-        });
-    }
+    const content = yield db_1.Linkmodel.find({
+        token
+    });
+    res.json({
+        content
+    });
 }));
 app.listen(3000);
