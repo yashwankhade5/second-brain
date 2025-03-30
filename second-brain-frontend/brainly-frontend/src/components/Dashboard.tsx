@@ -1,16 +1,15 @@
-import { PlusIcon } from "../icons/PlusIcon";
-import { Shareicon } from "../icons/Share";
-import { Button } from "./Button";
+
+import { Sidebar } from "./Sidebar";
+import { Main } from "./Main";
 
 
 export function Dashboard() {
  
 
 
-  return (
-    <div className="flex ">
-      <Button title={"Share Brain"} size={"md"} starticon={<Shareicon/>}/>
-      <Button title={"Add Content"} size={"md"} starticon={<PlusIcon/>}/>
+  return (<div className="flex">
+    <Sidebar/>
+    <Main/>
     </div>
   )
 }
