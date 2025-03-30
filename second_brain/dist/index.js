@@ -141,14 +141,14 @@ app.get("/api/v1/content", auth_1.auth, (req, res) => __awaiter(void 0, void 0, 
     try {
         result = yield db_1.contentmodel.find({
             "userId": userId
-        }).populate('userId');
+        }).populate('userId', 'username');
         res.status(200).json({
             "message": result
         });
     }
     catch (e) {
         res.status(400).json({
-            "messsage": result
+            "messsage": "not content"
         });
     }
 }));
