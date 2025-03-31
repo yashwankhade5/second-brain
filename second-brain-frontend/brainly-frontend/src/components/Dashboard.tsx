@@ -1,6 +1,6 @@
 
 import { Sidebar } from "./Sidebar";
-import { Main } from "./Main";
+import { TopBar } from "./TopBar";
 
 
 export function Dashboard() {
@@ -9,7 +9,8 @@ export function Dashboard() {
 
   return (<div className="flex">
     <Sidebar/>
-    <Main/>
+    <div className="w-8/10 min-h-screen  "><TopBar/></div>
+    
     </div>
   )
 }
