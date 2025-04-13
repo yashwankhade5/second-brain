@@ -4,7 +4,7 @@ import { ShareIcon } from "../icons/Share";
 
 
 export function TopBar() {
-    return<div className=" px-5 bg-blue-100"><div className="flex  justify-between p-5 ">
+    return<div className=" px-5 bg-[#f8f8f8d2]"><div className="flex  justify-between p-5 ">
     <div className="text-2xl font-bold">All Notes</div>
     <div className="flex ">
       <Button title={"Share Brain"} variant={"primary"} size={"lg"} starticon={<ShareIcon/>}/>
