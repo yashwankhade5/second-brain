@@ -1,7 +1,7 @@
 import {Request,Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { string } from "zod";
-const JWT_SECRET ="yash"
+const JWT_SECRET ="kirat"
 
 
 
