@@ -1,6 +1,6 @@
 
 export function random(len: number) {
-    let options = "qwertyuioasdfghjklzxcvbnm12345678";
+    let options = "abcdewqstfgnhmoplkjnvxzfhj1234567890";
     let length = options.length;
 
     let ans = "";
