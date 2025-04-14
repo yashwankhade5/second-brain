@@ -2,7 +2,7 @@
 import { Sidebar } from "./Sidebar";
 import { TopBar } from "./TopBar";
 import { Main } from "./MainContent";
-import { Bird } from "../icons/bird";
+
 
 
 

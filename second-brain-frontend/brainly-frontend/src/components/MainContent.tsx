@@ -1,13 +1,17 @@
 import { Dustbin } from "../icons/Dustbin";
 import { ShareIcon } from "../icons/Share";
 import { Bird } from "../icons/Bird";
+import { YouTube } from "../icons/Youtube";
 
 export function Main() {
-    return  <div className="flex-grow items-start flex-wrap flex gap-3 p-9 bg-[#f8f8f8d2]"> 
-    <Card title={"Project Idea nameww frgrgg it"} link={"https://www.youtube.com/watch?v=8_uNrBN3f2Q"} type={"youtube"}/>
-    <Card title={"Project Idea nameww frgrgg it"} link={"https://www.youtube.com/watch?v=8_uNrBN3f2Q"} type={"youtube"}/>
-    <Card title={"Project Idea nameww frgrgg it"} link={"https://www.youtube.com/watch?v=8_uNrBN3f2Q"} type={"youtube"}/>
-    <Card title={"Project Idea nameww frgrgg it"} link={"https://www.youtube.com/watch?v=8_uNrBN3f2Q"} type={"youtube"}/>
+    return  <div className="flex-grow items-start flex-wrap flex gap-y-5 gap-x-9 p-9 bg-[#e3e2e2d2]"> 
+    <Card title={"Project Idea "} link={"https://www.youtube.com/watch?v=8_uNrBN3f2Q"} type={"youtube"}/>
+    <Card title={"Project Idea "} link={"https://www.youtube.com/watch?v=8_uNrBN3f2Q"} type={"youtube"}/>
+    <Card title={"Project Idea "} link={"https://www.youtube.com/watch?v=8_uNrBN3f2Q"} type={"youtube"}/>
+    <Card title={"Project Idea "} link={"https://www.youtube.com/watch?v=8_uNrBN3f2Q"} type={"youtube"}/>
+    <Card title={"Project Idea "} link={"https://www.youtube.com/watch?v=8_uNrBN3f2Q"} type={"youtube"}/>
+    <Card title={"Project Idea "} link={"https://www.youtube.com/watch?v=8_uNrBN3f2Q"} type={"youtube"}/>
+
 
     
     
@@ -27,19 +31,19 @@ export function Card({title, link, type}: CardProps) {
     return <div>
         <div className="p-4 bg-white rounded-md border-gray-200 max-w-72  border min-h-48 min-w-72">
             <div className="flex justify-between">
-                <div className="flex items-center text-md font-semibold">
-                    <div className="text-gray-500 pr-2  ">
-                        <Bird />
+                <div className="flex items-center text-md font-semibold gap-5">
+                    <div className="text-gray-500 cursor-pointer ">
+                       {(type =="youtube") ? <YouTube/>:<Bird/> } 
                     </div>
                     {title}
                 </div>
                 <div className="flex items-center">
-                    <div className="pr-2 text-gray-500">
+                    <div className="pr-2 text-slate-500 hover:text-slate-950">
                         <a href={link} target="_blank">
                             <ShareIcon />
                         </a>
                     </div>
-                    <div className="text-gray-500">
+                    <div className="text-slate-400 hover:text-slate-950">
                         <Dustbin />
                     </div>
                 </div>
