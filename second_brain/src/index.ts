@@ -8,8 +8,8 @@ import jwt from "jsonwebtoken"
 import { Usermodel, contentmodel, tagmodel, Linkmodel } from "./db";
 import { random } from "./util";
 const app = express()
-const JWT_SECRET = "yash"
-const JWT_SHARE = "YASH1"
+const JWT_SECRET = "kirat"
+const JWT_SHARE = "kirat1"
 dotenv.config()
 
 const mongooseUrl = process.env.Mongoose
